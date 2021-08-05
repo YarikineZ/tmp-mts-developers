@@ -1,0 +1,256 @@
+{
+   "openapi":"3.0.1",
+   "info":{
+      "title":"Agents_External_API_V1_0",
+      "description":"External API витрины Agents",
+      "contact":{
+         
+      },
+      "version":"1.0"
+   },
+   "servers":[
+      {
+         "url":"http://10.97.145.65:30574",
+         "description":"http"
+      }
+   ],
+   "tags":[
+      {
+         "name":"external-api-v1",
+         "description":"Контроллер внешнего API v1"
+      }
+   ],
+   "paths":{
+      "/external-api/v1/clients/json":{
+         "post":{
+            "tags":[
+               "external-api-v1"
+            ],
+            "summary":"Оформление клиента",
+            "description":"Оформление клиента",
+            "operationId":"registerClient",
+            "requestBody":{
+               "content":{
+                  "application/json":{
+                     "schema":{
+                        "$ref":"#/components/schemas/ClientRegistrationWithoutFileExternalCreationDtoV1"
+                     }
+                  }
+               },
+               "required":true
+            },
+            "responses":{
+               "400":{
+                  "description":"Bad Request",
+                  "content":{
+                     "*/*":{
+                        "schema":{
+                           "$ref":"#/components/schemas/ErrorDto"
+                        }
+                     }
+                  }
+               },
+               "200":{
+                  "description":"The client is successfully registered"
+               },
+               "500":{
+                  "description":"Internal Server Error",
+                  "content":{
+                     "*/*":{
+                        "schema":{
+                           "$ref":"#/components/schemas/ErrorDto"
+                        }
+                     }
+                  }
+               }
+            }
+         }
+      }
+   },
+   "components":{
+      "schemas":{
+         "ClientRegistrationWithoutFileExternalCreationDtoV1":{
+            "required":[
+               "contactPersonPhoneNumber",
+               "organizationLegalName",
+               "partyId",
+               "products"
+            ],
+            "type":"object",
+            "properties":{
+               "partyId":{
+                  "maxLength":36,
+                  "minLength":36,
+                  "type":"string",
+                  "description":"Уникальные идентификатор организации в ППО",
+                  "format":"uuid",
+                  "example":"abaf672d-56e7-4723-bce5-44d0371e18a8"
+               },
+               "products":{
+                  "maxItems":21,
+                  "minItems":1,
+                  "uniqueItems":true,
+                  "type":"array",
+                  "items":{
+                     "maxLength":50,
+                     "minLength":3,
+                     "type":"string",
+                     "description":"Продукты МТС",
+                     "enum":[
+                        "MTS_MOBILE",
+                        "MTS_VIRUAL_ATC",
+                        "MTS_INTERNET",
+                        "MTS_CCTV",
+                        "MTS_PHONE_8_800",
+                        "MTS_TELE_ACCOUNT",
+                        "MTS_AUTO_SECRETARY",
+                        "MTS_CLOUD",
+                        "MTS_MOBILE_STAFF",
+                        "MTS_RUBLE_CHECK",
+                        "MTS_CALL_CENTRE",
+                        "MTS_TV",
+                        "MTS_MAAS"
+                     ]
+                  }
+               },
+               "comment":{
+                  "maxLength":255,
+                  "minLength":0,
+                  "type":"string",
+                  "description":"Комментарий",
+                  "nullable":true,
+                  "example":"Мой комментарий"
+               },
+               "organizationInn":{
+                  "maxLength":12,
+                  "minLength":9,
+                  "type":"string",
+                  "description":"ИНН организации (Обязательное поле при выборе продуктов МТС Банка)",
+                  "nullable":true,
+                  "example":"7740000076"
+               },
+               "organizationOgrn":{
+                  "maxLength":15,
+                  "minLength":13,
+                  "type":"string",
+                  "description":"ОГРН организации (Обязательное поле при выборе продуктов МТС Банка)",
+                  "nullable":true,
+                  "example":"1027700149124"
+               },
+               "organizationLegalName":{
+                  "maxLength":255,
+                  "minLength":1,
+                  "type":"string",
+                  "description":"Наименование организации, которое представляет контактное лицо",
+                  "example":"ООО \"Ополье\""
+               },
+               "organizationOpfType":{
+                  "maxLength":255,
+                  "minLength":0,
+                  "type":"string",
+                  "description":"Тип из справочника ОПФ (Обязательное поле при выборе продуктов МТС Банка)",
+                  "nullable":true,
+                  "example":"ООО"
+               },
+               "organizationAgentId":{
+                  "maxLength":255,
+                  "minLength":0,
+                  "type":"string",
+                  "description":"Идентификатор агента в организации",
+                  "nullable":true
+               },
+               "contactPersonName":{
+                  "maxLength":765,
+                  "minLength":0,
+                  "type":"string",
+                  "description":"Фамилия имя отчество контактного лица (Обязательное поле при выборе продуктов МТС Банка)",
+                  "nullable":true,
+                  "example":"Иванов Иван Иванович"
+               },
+               "contactPersonPhoneNumber":{
+                  "maxLength":10,
+                  "minLength":10,
+                  "type":"string",
+                  "description":"Номер телефона контактного лица, 10 цифр",
+                  "example":"9856603539"
+               },
+               "contactPersonEmail":{
+                  "maxLength":255,
+                  "minLength":0,
+                  "type":"string",
+                  "description":"Email контактного лица (Обязательное поле при выборе продуктов МТС Банка)",
+                  "nullable":true,
+                  "example":"user@gmail.com"
+               },
+               "mtsBankOfficeNumber":{
+                  "maxLength":255,
+                  "minLength":0,
+                  "type":"string",
+                  "description":"Код отделения МТС Банка (Обязательное поле при выборе продуктов МТС Банка)",
+                  "nullable":true,
+                  "example":"009-07"
+               },
+               "mtsRegionCode":{
+                  "maximum":100,
+                  "minimum":1,
+                  "type":"integer",
+                  "description":"Код субъекта региона (Обязательное поле при выборе продуктов МТС)",
+                  "format":"int32",
+                  "nullable":true,
+                  "example":50
+               },
+               "mtsServiceProvisionAddress":{
+                  "maxLength":255,
+                  "minLength":0,
+                  "type":"string",
+                  "description":"Адрес предоставления услуги (Обязательное поле при выборе продуктов МТС)",
+                  "nullable":true,
+                  "example":"г. Москва, ул. Пушкина, д. 2а, кв. 30"
+               }
+            },
+            "description":"ДТО оформления лида"
+         },
+         "ErrorDto":{
+            "type":"object",
+            "properties":{
+               "date":{
+                  "type":"string"
+               },
+               "message":{
+                  "type":"string"
+               },
+               "inputFieldErrors":{
+                  "type":"object",
+                  "additionalProperties":{
+                     "type":"object"
+                  }
+               },
+               "inputFieldErrorsForCollection":{
+                  "type":"array",
+                  "items":{
+                     "type":"object",
+                     "additionalProperties":{
+                        "type":"object"
+                     }
+                  }
+               },
+               "path":{
+                  "type":"string"
+               },
+               "trace":{
+                  "type":"string"
+               },
+               "clientRequestId":{
+                  "type":"string"
+               },
+               "inputObjectErrors":{
+                  "type":"array",
+                  "items":{
+                     "type":"string"
+                  }
+               }
+            }
+         }
+      }
+   }
+}
