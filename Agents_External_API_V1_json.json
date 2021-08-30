@@ -10,7 +10,7 @@
    },
    "servers":[
       {
-         "url":"http://api.mts.ru/Test-Agents/1.0/external-api/v1/clients/json",
+         "url":"https://api.mts.ru/Test-Agents/1.0/external-api/v1/clients/json",
          "description":"https"
       }
    ],
