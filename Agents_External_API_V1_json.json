@@ -10,8 +10,8 @@
    },
    "servers":[
       {
-         "url":"http://10.97.145.65:30574",
-         "description":"http"
+         "url":"http://api.mts.ru/Test-Agents/1.0/external-api/v1/clients/json",
+         "description":"https"
       }
    ],
    "tags":[
